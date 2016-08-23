@@ -113,7 +113,14 @@ standard error stream of the process.
 process on the screen, whether it is running and it's process id, etc.
 }
 \examples{
-p <- process$new("sleep", "2")
+# Windows does not have 'sleep', so we emulate it with 'ping'
+if (.Platform$OS.type == "windows") {
+  cmd <- "ping -n 3 127.0.0.1"
+} else {
+  cmd <- "sleep 2"
+}
+
+p <- process$new(commandline = cmd)
 p$is_alive()
 p
 p$kill()

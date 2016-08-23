@@ -107,7 +107,14 @@
 #' @importFrom R6 R6Class
 #' @name process
 #' @examples
-#' p <- process$new("sleep", "2")
+#' # Windows does not have 'sleep', so we emulate it with 'ping'
+#' if (.Platform$OS.type == "windows") {
+#'   cmd <- "ping -n 3 127.0.0.1"
+#' } else {
+#'   cmd <- "sleep 2"
+#' }
+#'
+#' p <- process$new(commandline = cmd)
 #' p$is_alive()
 #' p
 #' p$kill()
